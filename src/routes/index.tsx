@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { AppShell, PageShell, PageHeader } from "@/components/app-shell";
+import { AIMasteryLogo } from "@/components/logo";
 import {
   weeklyActivity, skillRadar, achievements,
 } from "@/lib/mock-data";
@@ -736,8 +737,8 @@ function PremiumLandingPage({ onEnter }: { onEnter: () => void }) {
       {/* Header bar */}
       <header className="w-full h-16 border-b border-white/5 backdrop-blur-xl bg-black/20 px-6 lg:px-12 flex items-center justify-between sticky top-0 z-50">
         <div className="flex items-center gap-2">
-          <div className="relative h-9 w-9 rounded-xl bg-gradient-to-br from-violet-600 via-fuchsia-600 to-cyan-500 grid place-items-center shadow-[0_0_24px_-4px_oklch(0.62_0.22_295/0.8)]">
-            <Sparkles className="h-4.5 w-4.5 text-white" />
+          <div className="relative h-9 w-9 rounded-xl bg-slate-950/80 border border-white/10 flex items-center justify-center shadow-[0_0_24px_-4px_oklch(0.62_0.22_295/0.8)]">
+            <AIMasteryLogo className="h-7.5 w-7.5" glow={false} />
           </div>
           <span className="font-bold tracking-tight text-md bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">AIMastery</span>
         </div>

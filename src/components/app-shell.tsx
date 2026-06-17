@@ -10,6 +10,7 @@ import { useState, useRef, useEffect, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { learnerProfile } from "@/lib/mock-data";
 import { useProgressStore } from "@/lib/progress-store";
+import { AIMasteryLogo } from "./logo";
 
 type NavItem = { label: string; to: string; icon: React.ComponentType<{ className?: string }>; badge?: string };
 type NavGroup = { label: string; app: "hub" | "learn" | "lab"; items: NavItem[] };
@@ -70,8 +71,8 @@ const modelsList = [
 function Logo() {
   return (
     <Link to="/" className="flex items-center gap-2 px-2">
-      <div className="relative h-8 w-8 rounded-lg bg-gradient-to-br from-violet-500 via-fuchsia-500 to-cyan-400 grid place-items-center shadow-[0_0_20px_-5px_oklch(0.62_0.22_295/0.6)]">
-        <Sparkles className="h-4 w-4 text-white" />
+      <div className="relative h-8 w-8 rounded-lg bg-slate-950 border border-white/10 flex items-center justify-center shadow-[0_0_20px_-5px_oklch(0.62_0.22_295/0.6)]">
+        <AIMasteryLogo className="h-6.5 w-6.5" glow={false} />
       </div>
       <div className="leading-tight">
         <div className="text-sm font-semibold tracking-tight">AIMastery</div>
