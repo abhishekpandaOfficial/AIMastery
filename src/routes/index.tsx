@@ -4,7 +4,7 @@ import {
   Flame, Clock, BookOpen, Trophy, ArrowUpRight, Sparkles, TrendingUp,
   Play, ChevronRight, Target, Zap, Crown, Map, ArrowRight, ShieldCheck, Terminal, Cpu, Database, Network
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AppShell, PageShell, PageHeader } from "@/components/app-shell";
 import {
   weeklyActivity, skillRadar, achievements,
@@ -632,16 +632,96 @@ function EntryWrapper() {
 
 // ─── Premium Landing Page Component ───────────────────────────
 function PremiumLandingPage({ onEnter }: { onEnter: () => void }) {
-  // Rich visual stack representation of 13 levels with dynamic coordinates for 3D fanning
+  // Rich visual stack representation of phases
   const floatingLevels = [
-    { num: 12, name: "Chief AI Architect Leadership", color: "from-pink-500 to-rose-600", y: -110, scale: 0.82, rotate: -4 },
-    { num: 11, name: "AI Architecture & System Design", color: "from-amber-400 to-orange-600", y: -90, scale: 0.85, rotate: 2 },
-    { num: 10, name: "MLOps & Production AI Pipelines", color: "from-emerald-400 to-teal-600", y: -70, scale: 0.88, rotate: -2 },
-    { num: 9, name: "LLM Engineering & RAG Systems", color: "from-cyan-400 to-blue-600", y: -50, scale: 0.91, rotate: 3 },
-    { num: 7, name: "Natural Language Processing (NLP)", color: "from-violet-500 to-purple-600", y: -30, scale: 0.94, rotate: -3 },
-    { num: 6, name: "Deep Learning Foundations & Frameworks", color: "from-fuchsia-500 to-indigo-600", y: -10, scale: 0.97, rotate: 1 },
-    { num: 4, name: "Core & Classical Machine Learning", color: "from-violet-400 to-cyan-500", y: 10, scale: 1.0, rotate: 0 }
+    {
+      num: 1,
+      phase: "Phase 1",
+      name: "CS & Pythonic Foundations",
+      color: "from-cyan-500 via-blue-500 to-indigo-600",
+      icon: Terminal,
+      details: [
+        "Advanced Data Structures & Algorithms",
+        "asyncio & Concurrency Profiling",
+        "pytest, Mocking & CI Best Practices"
+      ],
+      badge: "Days 1 - 30"
+    },
+    {
+      num: 2,
+      phase: "Phase 2",
+      name: "Math, Probability & Statistics",
+      color: "from-violet-500 via-purple-500 to-fuchsia-600",
+      icon: Cpu,
+      details: [
+        "Jacobians, Hessians & Gradients",
+        "Hypothesis Testing & ANOVA Analysis",
+        "Causal Inference & Structural Models"
+      ],
+      badge: "Days 31 - 70"
+    },
+    {
+      num: 3,
+      phase: "Phase 3",
+      name: "Classical ML & Deep Learning Core",
+      color: "from-fuchsia-500 via-pink-500 to-rose-600",
+      icon: Flame,
+      details: [
+        "Empirical Risk & VC Generalization",
+        "PyTorch Autograd & Custom Layers",
+        "CNNs, RNNs & Optimization Schedulers"
+      ],
+      badge: "Days 71 - 120"
+    },
+    {
+      num: 4,
+      phase: "Phase 4",
+      name: "LLM Engineering & Graph RAG",
+      color: "from-amber-400 via-orange-500 to-red-600",
+      icon: Sparkles,
+      details: [
+        "Vector Embeddings & Semantic Search",
+        "Advanced Graph RAG & Knowledge Graphs",
+        "LoRA, QLoRA & Parameter-Efficient Tuning"
+      ],
+      badge: "Days 121 - 240"
+    },
+    {
+      num: 5,
+      phase: "Phase 5",
+      name: "Multi-Agent Orchestration",
+      color: "from-emerald-400 via-teal-500 to-cyan-600",
+      icon: Zap,
+      details: [
+        "LangGraph & CrewAI State Management",
+        "Tool Calling & Planning Frameworks",
+        "Autonomous Agent Teams & Task Execution"
+      ],
+      badge: "Days 241 - 300"
+    },
+    {
+      num: 6,
+      phase: "Phase 6",
+      name: "MLOps & Enterprise Scaling",
+      color: "from-blue-500 via-indigo-500 to-violet-600",
+      icon: Database,
+      details: [
+        "Triton Inference Server Deployment",
+        "Model Registry & Lineage Tracking",
+        "Distributed Training & Pipeline Monitoring"
+      ],
+      badge: "Days 301 - 365"
+    }
   ];
+
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % floatingLevels.length);
+    }, 3800);
+    return () => clearInterval(interval);
+  }, [floatingLevels.length]);
 
   return (
     <div className="min-h-screen w-full bg-[#030014] text-slate-100 flex flex-col relative overflow-hidden font-sans selection:bg-violet-500/30 selection:text-white">
@@ -728,66 +808,145 @@ function PremiumLandingPage({ onEnter }: { onEnter: () => void }) {
           </div>
 
           {/* Right 3D Style Floating Level Stack */}
-          <div className="lg:col-span-5 flex items-center justify-center min-h-[380px] relative">
-            <div className="relative w-full max-w-[340px] h-[320px] flex items-center justify-center" style={{ transformStyle: "preserve-3d", perspective: "1200px", transform: "rotateX(15deg) rotateY(-12deg) rotateZ(2deg)" }}>
-              {floatingLevels.map((lvl, idx) => (
-                <motion.div
-                  key={lvl.num}
-                  initial={{
-                    opacity: 0,
-                    y: 120,
-                    scale: 0.7,
-                    rotate: 0,
-                    z: -120
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: [lvl.y, lvl.y - 8, lvl.y],
-                    scale: lvl.scale,
-                    rotate: [lvl.rotate, lvl.rotate + 1.5, lvl.rotate],
-                    z: 0
-                  }}
-                  transition={{
-                    opacity: { duration: 0.8, delay: idx * 0.12 },
-                    scale: { duration: 0.8, delay: idx * 0.12 },
-                    y: {
-                      duration: 4.5,
-                      repeat: Infinity,
-                      repeatType: "reverse",
-                      ease: "easeInOut",
-                      delay: idx * 0.25,
-                    },
-                    rotate: {
-                      duration: 5.5,
-                      repeat: Infinity,
-                      repeatType: "reverse",
-                      ease: "easeInOut",
-                      delay: idx * 0.2,
-                    }
-                  }}
-                  className="absolute w-full rounded-xl border border-white/10 bg-slate-950/70 backdrop-blur-md p-4 shadow-[0_15px_35px_rgba(0,0,0,0.5)] flex items-center gap-3 select-none hover:border-violet-500/50 hover:bg-slate-900/90 transition-all duration-300 cursor-pointer"
-                  style={{
-                    transformStyle: "preserve-3d",
-                    zIndex: idx,
-                  }}
-                  whileHover={{
-                    z: 50,
-                    scale: lvl.scale * 1.05,
-                    y: lvl.y - 15,
-                    rotate: 0,
-                    transition: { duration: 0.2 }
-                  }}
-                >
-                  <div className={cn("h-8 w-8 rounded-lg bg-gradient-to-br flex items-center justify-center font-bold text-white text-xs shrink-0 shadow-md", lvl.color)}>
-                    P{lvl.num}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Level {lvl.num}</div>
-                    <div className="text-xs font-bold text-white truncate">{lvl.name}</div>
-                  </div>
-                  <ChevronRight className="h-4.5 w-4.5 text-slate-500" />
-                </motion.div>
-              ))}
+          <div className="lg:col-span-5 flex items-center justify-center min-h-[420px] relative">
+            <div className="relative w-full max-w-[440px] h-[380px] flex items-center justify-center" style={{ transformStyle: "preserve-3d", perspective: "1200px", transform: "rotateX(15deg) rotateY(-12deg) rotateZ(2deg)" }}>
+              {floatingLevels.map((lvl, idx) => {
+                const total = floatingLevels.length;
+                const relIndex = (idx - activeIndex + total) % total;
+
+                // Position variables for active and background cards in 3D stack
+                let x = 0;
+                let y = 0;
+                let z = 0;
+                let scale = 1;
+                let opacity = 1;
+                let zIndex = total - relIndex;
+                let rotate = 0;
+
+                if (relIndex === 0) {
+                  x = 0;
+                  y = 0;
+                  z = 40;
+                  scale = 1.05;
+                  opacity = 1;
+                  zIndex = 50;
+                  rotate = 0;
+                } else if (relIndex === 1) {
+                  x = 0;
+                  y = -22;
+                  z = -30;
+                  scale = 0.96;
+                  opacity = 0.9;
+                  zIndex = 40;
+                  rotate = 2;
+                } else if (relIndex === 2) {
+                  x = 0;
+                  y = -44;
+                  z = -60;
+                  scale = 0.92;
+                  opacity = 0.7;
+                  zIndex = 30;
+                  rotate = -2;
+                } else if (relIndex === 3) {
+                  x = 0;
+                  y = -66;
+                  z = -90;
+                  scale = 0.88;
+                  opacity = 0.45;
+                  zIndex = 20;
+                  rotate = 1.5;
+                } else if (relIndex === total - 1) {
+                  // Card exiting to go to the back of the stack
+                  x = 280;
+                  y = 15;
+                  z = 40;
+                  scale = 0.95;
+                  opacity = 0;
+                  zIndex = 45;
+                  rotate = 6;
+                } else {
+                  // Invisible card deep in the stack
+                  x = 0;
+                  y = -88;
+                  z = -120;
+                  scale = 0.84;
+                  opacity = 0;
+                  zIndex = 10;
+                  rotate = 0;
+                }
+
+                const IconComponent = lvl.icon;
+
+                return (
+                  <motion.div
+                    key={lvl.num}
+                    style={{
+                      transformStyle: "preserve-3d",
+                      zIndex,
+                    }}
+                    animate={{
+                      x,
+                      y,
+                      z,
+                      scale,
+                      opacity,
+                      rotate,
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 120,
+                      damping: 18,
+                    }}
+                    whileHover={relIndex === 0 ? {
+                      scale: 1.08,
+                      z: 60,
+                      transition: { duration: 0.2 }
+                    } : undefined}
+                    onClick={() => setActiveIndex(idx)}
+                    className="absolute w-full rounded-2xl border border-white/10 bg-slate-950/85 backdrop-blur-xl p-5 shadow-[0_20px_50px_rgba(0,0,0,0.65)] flex flex-col gap-3 select-none hover:border-violet-500/40 transition-all duration-300 cursor-pointer"
+                  >
+                    {/* Card Header */}
+                    <div className="flex items-center gap-3">
+                      <div className={cn("h-10 w-10 rounded-xl bg-gradient-to-br flex items-center justify-center font-bold text-white text-sm shrink-0 shadow-lg", lvl.color)}>
+                        <IconComponent className="h-5 w-5 text-white" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-[10px] text-violet-400 font-extrabold uppercase tracking-widest">{lvl.phase} • {lvl.badge}</div>
+                        <div className="text-sm font-black text-white truncate">{lvl.name}</div>
+                      </div>
+                      <ChevronRight className="h-4.5 w-4.5 text-slate-500 shrink-0" />
+                    </div>
+
+                    {/* Staggered Detail Items showing when active */}
+                    <div className="overflow-hidden">
+                      <AnimatePresence initial={false}>
+                        {relIndex === 0 && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="space-y-2.5 pt-3 border-t border-white/5"
+                          >
+                            {lvl.details.map((detail, dIdx) => (
+                              <motion.div
+                                key={detail}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: dIdx * 0.15 + 0.2, duration: 0.35 }}
+                                className="flex items-center gap-2.5 text-xs text-slate-300 font-medium"
+                              >
+                                <div className={cn("h-1.5 w-1.5 rounded-full shrink-0 bg-gradient-to-br", lvl.color)} />
+                                <span className="leading-tight">{detail}</span>
+                              </motion.div>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </div>
